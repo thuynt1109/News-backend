@@ -7,6 +7,6 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 db.category = require("./category.model")(mongoose);
-
+db.users = require("./users.model")(mongoose);
 
 module.exports = db;

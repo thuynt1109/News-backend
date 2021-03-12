@@ -29,9 +29,9 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Category from the database.
-exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+exports.getAll = (req, res) => {
+    const category_name = req.query.category_name;
+    var condition = category_name ? { category_name: { $regex: new RegExp(category_name), $options: "i" } } : {};
 
     Category.find(condition)
         .then(data => {
@@ -44,7 +44,7 @@ exports.findAll = (req, res) => {
         });
 };
 // Find a single Category with an id
-exports.findOne = (req, res) => {
+exports.getById = (req, res) => {
     const id = req.params.id;
 
     Category.findById(id)
@@ -119,19 +119,6 @@ exports.deleteAll = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while removing all category."
-            });
-        });
-};
-
-// Find all published Category
-exports.findAllPublished = (req, res) => {
-    Category.find({ published: true })
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while retrieving category."
             });
         });
 };

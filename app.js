@@ -35,6 +35,7 @@ app.get("/", (req, res) => {
 
 // set port, listen for requests
 require("./routes/routes.news")(app);
+
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
