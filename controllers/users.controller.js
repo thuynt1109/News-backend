@@ -7,6 +7,8 @@ exports.create = (req, res) => {
         return;
     }
     const users = new Users({
+        username: req.body.username,
+        password: req.body.password,
         user_name: req.body.user_name,
         user_phone: req.body.user_phone,
         user_email: req.body.user_email,
