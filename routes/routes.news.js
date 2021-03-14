@@ -4,6 +4,7 @@ module.exports = function(app) {
     var category = require("../controllers/category.controller");
     var users = require("../controllers/users.controller");
     var contact = require("../controllers/contact.controller");
+    var blog = require("../controllers/blog.controller");
     var router = require("express").Router();
 
 
@@ -30,6 +31,9 @@ module.exports = function(app) {
     router.get("/contact/:id", contact.getById);
     router.put("/contact/:id", contact.update);
     router.delete("/contact/:id", contact.delete);
+    // ---------------------------------------------
+    router.post("/blog/create", blog.create);
+    router.get("/blog/getAll", blog.getAll);
     app.use('/api', router);
 
 
