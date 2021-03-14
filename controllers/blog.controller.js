@@ -1,3 +1,4 @@
+const { category } = require("../models");
 const db = require("../models");
 const Blog = db.blog;
 
@@ -37,4 +38,63 @@ exports.getAll = (req, res) => {
                 message: err.message || "Some error occurred while retrieving Blog."
             });
         });
+};
+exports.getById = (req, res) => {
+    const id = req.params.id;
+
+    Blog.findById(id)
+        .then(data => {
+            if (!data)
+                res.status(404).send({ message: "Not found Blog with id " + id });
+            else res.send(data);
+        })
+        .catch(err => {
+            status(500)
+                .send({ message: "Error retrieving Category with id=" + id })
+        });
+
+};
+exports.update = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
+            message: "Data to update can not empty!"
+        });
+    }
+    const id = req.params.id;
+    Blog.findByIdAndUpdate(id, req.body, { useFindAndMonify: false })
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot update Blog with id=${id}. Maybe Blog was not found!`
+                });
+
+            } else res.send({ message: "Blog was updated successfully." });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Error updating Blog with id=" + id
+            });
+        });
+};
+exports.delete = (req, res) => {
+    const id = req.params.id;
+
+    Blog.findByIdAndRemove(id)
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot delete Blog with id=${id}. Maybe Blog was not found!`
+                });
+            } else {
+                res.send({
+                    message: "Blog was deleted successfully!"
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: "Could not delete Blog with id=" + id
+            });
+        });
+
 };

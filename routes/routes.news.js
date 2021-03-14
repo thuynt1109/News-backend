@@ -34,6 +34,9 @@ module.exports = function(app) {
     // ---------------------------------------------
     router.post("/blog/create", blog.create);
     router.get("/blog/getAll", blog.getAll);
+    router.get("/blog/:id", blog.getById);
+    router.put("/blog/:id", blog.update);
+    router.delete("/blog/:id", blog.delete);
     app.use('/api', router);
 
 
