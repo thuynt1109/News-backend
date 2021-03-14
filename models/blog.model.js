@@ -7,6 +7,7 @@ module.exports = mongoose => {
             blog_name: String,
             blog_title: String,
             blog_description: String,
+            blog_image:String,
             blog_seen: Number,
         }, { timestamps: true })
     );

@@ -13,6 +13,7 @@ exports.create = (req, res) => {
         blog_name: req.body.blog_name,
         blog_title: req.body.blog_title,
         blog_description: req.body.blog_description,
+        blog_image:req.body.blog_image,
         blog_seen: req.body.blog_seen
     });
     blog
