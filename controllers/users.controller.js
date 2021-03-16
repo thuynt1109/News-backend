@@ -1,15 +1,19 @@
 const db = require("../models");
 var md5 = require('md5');
+var jwt = require('jsonwebtoken');
+// const bcrypt = require('bcrypt');
 const Users = db.users;
 
+
 exports.create = (req, res) => {
+    var hashedPassword = md5(req.body.password);
     if (!req.body.user_name) {
         res.status(400).send({ message: "user_name can not be empty !" });
         return;
     }
     const users = new Users({
         username: req.body.username,
-        password: md5(req.body.password),
+        password: hashedPassword,
         user_name: req.body.user_name,
         user_phone: req.body.user_phone,
         user_email: req.body.user_email,
@@ -100,4 +104,50 @@ exports.delete = (req, res) => {
                 message: "Could not delete user with id: " + id
             });
         });
+};
+
+exports.login = (req, res) => {
+    Users.findOne({
+        username: req.body.username,
+    }, function(err, result) {
+        if (err) {
+            return res.send({
+                exitcode: 0,
+                data: {},
+                message: "Err"
+            })
+        } else {
+            if (result == null) {
+                return res.send({
+                    exitcode: 0,
+                    data: result,
+                    message: 'No valid'
+                })
+            } else {
+                // console.log(result.password);
+                // const passLogin = bcrypt.compare(req.body.password, result.password);
+                // console.log(req.body.password);
+                // console.log("passLogin:" + passLogin);
+                if (result.password != md5(req.body.password))
+                    return res.status(400).send({
+                        message: "Mật khẩu chưa đúng"
+                    })
+                else {
+                    payload = {
+                        username: req.body.username,
+                        password: req.body.password
+                    }
+                    secret = 'tqh'
+                    token = jwt.sign(payload, secret, { expiresIn: '90s' })
+                    return res.send({
+                        exitcode: 1,
+                        encode: token,
+                        message1: 'Get token successful'
+                    })
+                }
+            }
+        }
+    })
+
+
 };

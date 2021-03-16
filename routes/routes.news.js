@@ -21,6 +21,7 @@ module.exports = function(app) {
     router["delete"]("/category/", category.deleteAll);
     // ----------------------------------//
     router.post("/users/create", users.create);
+    router.post("/users/login", users.login);
     router.get("/users/getAll", users.getAll);
     router.get("/users/:id", users.getById);
     router.put("/users/:id", users.update);
