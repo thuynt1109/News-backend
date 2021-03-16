@@ -1,4 +1,5 @@
 const db = require("../models");
+var md5 = require('md5');
 const Users = db.users;
 
 exports.create = (req, res) => {
@@ -8,7 +9,7 @@ exports.create = (req, res) => {
     }
     const users = new Users({
         username: req.body.username,
-        password: req.body.password,
+        password: md5(req.body.password),
         user_name: req.body.user_name,
         user_phone: req.body.user_phone,
         user_email: req.body.user_email,
