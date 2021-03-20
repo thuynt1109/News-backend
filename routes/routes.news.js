@@ -22,6 +22,7 @@ module.exports = function(app) {
     // ----------------------------------//
     router.post("/users/create", users.create);
     router.post("/users/login", users.login);
+    router.post("/users/decode", users.decode);
     router.get("/users/getAll", users.getAll);
     router.get("/users/:id", users.getById);
     router.put("/users/:id", users.update);

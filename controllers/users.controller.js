@@ -106,7 +106,7 @@ exports.delete = (req, res) => {
         });
 };
 
-exports.login = (req, res) => {
+exports.login = (req, res, next) => {
     Users.findOne({
         username: req.body.username,
     }, function(err, result) {
@@ -130,7 +130,7 @@ exports.login = (req, res) => {
                 // console.log("passLogin:" + passLogin);
                 if (result.password != md5(req.body.password))
                     return res.status(400).send({
-                        message: "Mật khẩu chưa đúng"
+                        message: "Wrong password!"
                     })
                 else {
                     payload = {
@@ -139,10 +139,12 @@ exports.login = (req, res) => {
                     }
                     secret = 'tqh'
                     token = jwt.sign(payload, secret, { expiresIn: '90s' })
+                    next()
                     return res.send({
                         exitcode: 1,
                         encode: token,
                         message1: 'Get token successful'
+
                     })
                 }
             }
@@ -150,4 +152,26 @@ exports.login = (req, res) => {
     })
 
 
+};
+exports.decode = (req, res) => {
+    x = req.body
+
+    token = x.token
+
+    secret = 'tqh'
+
+    try {
+        decoded = jwt.verify(token, secret);
+        return res.send({
+            exitcode: 1,
+            decode: decoded,
+            message: 'Decode token successful'
+        })
+    } catch (error) {
+        return res.send({
+            exitcode: 0,
+            encode: {},
+            message: 'Expired Time or token invalid'
+        })
+    }
 };
